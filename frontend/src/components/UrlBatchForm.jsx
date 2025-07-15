@@ -24,7 +24,7 @@ const UrlBatchForm = () => {
     setRows(updatedRows);
 
     const updatedErrors = [...errors];
-    updatedErrors[index][field] = ""; // Clear error on change
+    updatedErrors[index][field] = ""; 
     setErrors(updatedErrors);
   };
 
@@ -51,7 +51,7 @@ const UrlBatchForm = () => {
     const validRows = rows.filter((row) => row.longUrl.trim() !== "");
 
     validRows.forEach((row, index) => {
-      // Reset errors
+      
       updatedErrors[index] = { ...defaultError };
 
       if (!isValidUrl(row.longUrl)) {
@@ -77,7 +77,7 @@ const UrlBatchForm = () => {
 
     if (hasError) return;
 
-    // If valid, save
+    
     validRows.forEach((row) => {
       const code = row.customCode || generateShortcode();
       const createdAt = Date.now();

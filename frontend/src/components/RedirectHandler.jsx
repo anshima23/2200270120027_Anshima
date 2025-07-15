@@ -40,14 +40,12 @@ const RedirectHandler = () => {
       return;
     }
 
-    // Log the click in context
     updateClickData(shortcode, {
       timestamp: now,
       referrer: document.referrer || "Direct",
-      location: "India", // fake location
+      location: "India", 
     });
 
-    // Log successful redirect
     log({
       stack: "frontend",
       level: "info",
@@ -55,7 +53,7 @@ const RedirectHandler = () => {
       message: `Redirecting shortcode "${shortcode}" to: ${current.longUrl}`,
     });
 
-    // Redirect
+    
     window.location.href = current.longUrl;
   }, [shortcode, urls, updateClickData, navigate]);
 
