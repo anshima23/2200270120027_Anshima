@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useUrl } from "../context/UrlContext";
 import { Typography, CircularProgress, Box } from "@mui/material";
+import { log } from '@logger/log';
 
 const RedirectHandler = () => {
   const { shortcode } = useParams();
@@ -12,6 +13,13 @@ const RedirectHandler = () => {
     const current = urls.find((url) => url.shortCode === shortcode);
 
     if (!current) {
+      log({
+        stack: "frontend",
+        level: "warn",
+        package: "RedirectHandler",
+        message: `Shortcode "${shortcode}" not found in context.`,
+      });
+
       setTimeout(() => {
         navigate("/not-found");
       }, 2000);
@@ -20,16 +28,31 @@ const RedirectHandler = () => {
 
     const now = Date.now();
     if (now > current.expiresAt) {
+      log({
+        stack: "frontend",
+        level: "info",
+        package: "RedirectHandler",
+        message: `Shortcode "${shortcode}" has expired.`,
+      });
+
       alert("This URL has expired.");
       navigate("/");
       return;
     }
 
-    // Log the click
+    // Log the click in context
     updateClickData(shortcode, {
       timestamp: now,
       referrer: document.referrer || "Direct",
-      location: "India", // mock location
+      location: "India", // fake location
+    });
+
+    // Log successful redirect
+    log({
+      stack: "frontend",
+      level: "info",
+      package: "RedirectHandler",
+      message: `Redirecting shortcode "${shortcode}" to: ${current.longUrl}`,
     });
 
     // Redirect

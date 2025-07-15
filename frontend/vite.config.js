@@ -1,10 +1,19 @@
+// frontend/vite.config.js
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
+  resolve: {
+    alias: {
+      '@logger': path.resolve(__dirname, '../logger'),
+    },
+  },
   server: {
-    port: 3000, // 👈 This line changes the default port to 3000
+    port: 3000,         // ✅ Set desired port here
+    fs: {
+      allow: ['..'],    // ✅ Allow reading from parent directories (like logger)
+    },
   },
 });
